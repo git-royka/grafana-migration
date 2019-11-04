@@ -13,7 +13,6 @@ items = open('response_folder.json')
 data = json.load(items)
 items.close()
 length = len(data)
-print length
 i = 0
 while i < length:
     id = data[i]['id']
@@ -25,7 +24,7 @@ while i < length:
     data_items = '{  "uid": "'+uid+'", "title": "'+title+'"}'
     response = requests.post('http://admin:admin@localhost:3001/api/folders', headers=headers, data=data_items)
     if response.status_code == 200:
-        print ( title, "Create folder" )
+        print ( "Create folder", title )
     else:
         print ( "Can't create folder", title, response )
 
@@ -53,5 +52,31 @@ while i < 100:
         else:
             print ( "Can't create team", response )
     i+=1
+#++++Teams migrait datasources++++++
+response = requests.get('http://admin:admin@localhost:3000/api/datasources')
+with open('response_datasources.json', 'w') as outfile:
+    outfile.write(response.content)
+
+#parsing file
+items = open('response_datasources.json')
+data = json.load(items)
+items.close()
+length = len(data)
+i = 0
+while i < length:
+    name = data[i]['name']
+    type =  data[i]['type']
+    url = data[i]['url']
+    access = data[i]['access']
+    basicAuth = data[i]['basicAuth']
+    i+=1
+    #create new items in grafana
+    headers = {'Content-Type': 'application/json',}
+    data_datasources ='{"name":"'+name+'", "type":"'+type+'", "url":"'+url+'", "access":"'+access+'"}'
+    response = requests.post('http://admin:admin@localhost:3001/api/datasources', headers=headers, data=data_datasources)
+    if response.status_code == 200:
+        print ( title, "Create datasources", type )
+    else:
+        print ( "Can't create datasources", name, url, response )
 
 print ("final")
