@@ -2,9 +2,17 @@
 import requests
 import os
 import json
+
+#++++Input data++++
+url_source = ('localhost:3000') #raw_input("Enter url_source with out http:")
+url_destination = ('localhost:3001') #raw_input("Enter url_destination with out http:")
+login = ('admin')#raw_input("Enter login:")
+password = ('admin')#raw_input("Enter password:")
+url_sorce_req = 'http://'+str(login)+':'+str(password)+'@'+str(url_source)+''
+url_destination_req = 'http://'+str(login)+':'+str(password)+'@'+str(url_destination)+''
 #++++folder migrait process++++++
 #upload response in file
-response = requests.get('http://admin:admin@localhost:3000/api/folders')
+response = requests.get(url_sorce_req+'/api/folders')
 with open('response_folder.json', 'w') as outfile:
     outfile.write(response.content)
 
@@ -22,7 +30,7 @@ while i < length:
     #create new items in grafana
     headers = {'Content-Type': 'application/json',}
     data_items = '{  "uid": "'+uid+'", "title": "'+title+'"}'
-    response = requests.post('http://admin:admin@localhost:3001/api/folders', headers=headers, data=data_items)
+    response = requests.post(url_destination_req+'/api/folders', headers=headers, data=data_items)
     if response.status_code == 200:
         print ( "Create folder", title )
     else:
@@ -32,9 +40,7 @@ while i < length:
 #Get team
 i=1
 while i < 100:
-#    data_teams = '{"message": "0"}'
-#    data_teams["message"] = 0
-    url = ('http://admin:admin@localhost:3000/api/teams/'+str(i))
+    url = (url_sorce_req+'/api/teams/'+str(i))
     response = requests.get(url)
     #Get team name
     data_teams = json.loads(response.content)
@@ -46,14 +52,14 @@ while i < 100:
         #create new items in grafana
         headers = {'Content-Type': 'application/json',}
         data_team_name = '{"name": "'+name+'"}'
-        response = requests.post('http://admin:admin@localhost:3001/api/teams', headers=headers, data=data_team_name)
+        response = requests.post(url_destination_req+'/api/teams', headers=headers, data=data_team_name)
         if response.status_code == 200:
             print ( "Create team", name)
         else:
             print ( "Can't create team", response )
     i+=1
-#++++Teams migrait datasources++++++
-response = requests.get('http://admin:admin@localhost:3000/api/datasources')
+#++++datasource migrait datasources++++++
+response = requests.get(url_sorce_req+'/api/datasources')
 with open('response_datasources.json', 'w') as outfile:
     outfile.write(response.content)
 
@@ -73,10 +79,8 @@ while i < length:
     #create new items in grafana
     headers = {'Content-Type': 'application/json',}
     data_datasources ='{"name":"'+name+'", "type":"'+type+'", "url":"'+url+'", "access":"'+access+'"}'
-    response = requests.post('http://admin:admin@localhost:3001/api/datasources', headers=headers, data=data_datasources)
+    response = requests.post(url_destination_req+'/api/datasources', headers=headers, data=data_datasources)
     if response.status_code == 200:
         print ( title, "Create datasources", type )
     else:
         print ( "Can't create datasources", name, url, response )
-
-print ("final")
