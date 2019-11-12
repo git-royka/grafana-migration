@@ -4,10 +4,10 @@ import os
 import json
 
 #++++Input data++++
-url_source = ('localhost:3000') #raw_input("Enter url_source with out http:")
-url_destination = ('localhost:3001') #raw_input("Enter url_destination with out http:")
-login = ('admin')#raw_input("Enter login:")
-password = ('admin')#raw_input("Enter password:")
+url_source = raw_input("Enter url_source with out http:") #('localhost:3000')
+url_destination = raw_input("Enter url_destination with out http:")#('localhost:3001')
+login = raw_input("Enter login:") #('admin')
+password = raw_input("Enter password:")#('admin')
 url_sorce_req = 'http://'+str(login)+':'+str(password)+'@'+str(url_source)+''
 url_destination_req = 'http://'+str(login)+':'+str(password)+'@'+str(url_destination)+''
 project = raw_input("Enter project name:")
