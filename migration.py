@@ -10,6 +10,8 @@ login = ('admin')#raw_input("Enter login:")
 password = ('admin')#raw_input("Enter password:")
 url_sorce_req = 'http://'+str(login)+':'+str(password)+'@'+str(url_source)+''
 url_destination_req = 'http://'+str(login)+':'+str(password)+'@'+str(url_destination)+''
+project = raw_input("Enter project name:")
+project = project + str("/")
 #++++folder migrait process++++++
 #upload response in file
 response = requests.get(url_sorce_req+'/api/folders')
@@ -24,7 +26,7 @@ length = len(data)
 i = 0
 while i < length:
     id = data[i]['id']
-    title =  data[i]['title']
+    title =  project + data[i]['title']
     uid = data[i]['uid']
     i+=1
     #create new items in grafana
@@ -48,7 +50,7 @@ while i < 100:
     if data_teams_test[0] == "Team not found":
         print ("Team not found")
     else:
-        name = data_teams["name"]
+        name = project + data_teams["name"]
         #create new items in grafana
         headers = {'Content-Type': 'application/json',}
         data_team_name = '{"name": "'+name+'"}'
@@ -70,7 +72,7 @@ items.close()
 length = len(data)
 i = 0
 while i < length:
-    name = data[i]['name']
+    name = project + data[i]['name']
     type =  data[i]['type']
     url = data[i]['url']
     access = data[i]['access']
