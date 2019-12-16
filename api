@@ -1,0 +1,1 @@
+curl -H "Authorization: Bearer eyJrIjoiV3dPU05DaUJ6RGNEeTFDcWc3UzhaR2ttNW1DM3Q4U2kiLCJuIjoiTUlHUkFUSU9OIiwiaWQiOjF9" https://grafana.infrateam-dev.xyz/api/dashboards/home
