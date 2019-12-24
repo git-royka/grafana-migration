@@ -9,13 +9,14 @@ url_sorce_req = str(url_source)
 ###############
 url_destination = raw_input("Enter url destination:")
 authorization_dest = raw_input("Enter authorization token destenation \"Bearer **********\":")
+
 url_destination_req = str(url_destination)
 ##########
 project = raw_input("Enter project name:")
 project = project + str(" / ")
 #++++folder migrait process++++++
 #upload response in file
-headers = {'Authorization': ''+authorization_source+'',}
+headers = {'Content-Type': 'application/json', 'Authorization': ''+authorization_source+'',}
 response = requests.get(url_sorce_req+'api/folders', headers=headers)
 #response = requests.get('https://grafana.airslate-stage.xyz/api/folders', headers = headers)
 with open('response_folder.json', 'w') as outfile:
@@ -33,7 +34,7 @@ while i < length:
     uid = data[i]['uid']
     i+=1
     #create new items in grafana
-    headers = {'Authorization': ''+authorization_dest+'',}
+    headers = {'Content-Type': 'application/json', 'Authorization': ''+authorization_dest+'',}
     data_items = '{  "uid": "'+uid+'", "title": "'+title+'"}'
     response = requests.post(url_destination_req+'api/folders', headers=headers, data=data_items)
     if response.status_code == 200:
@@ -45,7 +46,7 @@ print ("finish foldr")
 #Get team
 i=1
 while i < 100:
-    headers = {'Authorization': ''+authorization_source+'',}
+    headers = {'Content-Type': 'application/json', 'Authorization': ''+authorization_source+'',}
     url = (url_sorce_req+'api/teams/'+str(i))
     response = requests.get(url, headers=headers)
     #Get team name
@@ -58,7 +59,7 @@ while i < 100:
         name = project + data_teams['name']
         print name
         #create new items in grafana
-        headers = {'Authorization': ''+authorization_dest+'',}
+        headers = {'Content-Type': 'application/json', 'Authorization': ''+authorization_dest+'',}
         data_team_name = '{"name": "'+name+'"}'
         response = requests.post(url_destination_req+'api/teams', headers=headers, data=data_team_name)
         if response.status_code == 200:
