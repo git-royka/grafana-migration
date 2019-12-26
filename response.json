@@ -1,1 +1,0 @@
-./logs-stat-sender.py --elastic="es-logs.signnow.com:9200" --doc_type="prod-document-manager-app" --kibana="https://kibana.signnow.com" --src='noreply@pdffiller.com' --to="dovhodko.maksym@pdffiller.team" --api_url="http://mailer.pdffiller.com/api/v1/messages/send" --user="sn_support" --pswd="JtW5qWgkK3b92xCj" --es_version="6" --index="prod-document-cluster-"
